@@ -57,14 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         const imageTitle = imageCard.querySelector("#card-title")
+        const cardImage = imageCard.querySelector("#card-image")
+
         imageTitle.addEventListener("click", () => {
-            const cardImage = imageCard.querySelector("#card-image")
             showing = !showing;
             if(showing){
                 cardImage.style.display = "block"
             } else {
                 cardImage.style.display = "none"
             }
+        })
+
+        cardImage.addEventListener("click", () => {
+            getRandomImage(cardImage)
         })
 
     }
@@ -127,5 +132,13 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => response.json())
         .then(result => result)
+    }
+
+    function getRandomImage(imageCard) {
+        fetch("https://dog.ceo/api/breeds/image/random")
+        .then(response => response.json())
+        .then(result => {
+            imageCard.setAttribute("src", result.message)
+        })
     }
 })
