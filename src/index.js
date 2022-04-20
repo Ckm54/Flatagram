@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <button id="like-button" class="like-button">♥</button>
             </div>
             <ul id="comments-list" class="comments">
-            COMMENTS
             </ul>
             <form id="comment-form" class="comment-form">
             <input
@@ -37,9 +36,24 @@ document.addEventListener("DOMContentLoaded", () => {
         imageCard.innerHTML = imageContent
         imageContainer.appendChild(imageCard)
 
+        const commentsList = imageCard.querySelector("#comments-list")
+        getComments(item, commentsList)
+
         imageCard.querySelector("#like-button").addEventListener("click", function(){
             updateLikes(item)
         })
+        const commentForm = imageCard.querySelector("form#comment-form");
+        commentForm.addEventListener("submit", function(e){
+            e.preventDefault()
+            const data = {
+                imageId: item.id,
+                content: commentForm["comment"].value
+            }
+            postNewComment(data)
+            getComments(item, commentsList)
+            commentForm.reset()
+        })
+
     }
 
     function updateLikes(item) {
@@ -57,5 +71,37 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => response.json())
         .then(data => displayImage(data))
+    }
+
+    function getComments(item, container) {
+        container.innerHTML = ''
+        fetch(`http://localhost:3000/comments`)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(element => {
+                if(element.imageId === item.id){
+                    const listItem = document.createElement("li")
+                    listItem.innerText = element.content
+                    container.append(listItem)
+                }
+            })
+        })
+    }
+
+
+    function postNewComment(data) {
+        fetch(`http://localhost:3000/comments`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+    }
+
+    function loadComments(item) {
+
     }
 })
