@@ -82,6 +82,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 if(element.imageId === item.id){
                     const listItem = document.createElement("li")
                     listItem.innerText = element.content
+                    listItem.addEventListener("click", function(){
+                        listItem.remove()
+                        deleteComment(element.id)
+                    })
                     container.append(listItem)
                 }
             })
@@ -101,7 +105,14 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => console.log(data))
     }
 
-    function loadComments(item) {
-
+    function deleteComment(id) {
+        fetch(`http://localhost:3000/comments/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(result => result)
     }
 })
