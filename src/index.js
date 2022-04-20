@@ -36,5 +36,26 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         imageCard.innerHTML = imageContent
         imageContainer.appendChild(imageCard)
+
+        imageCard.querySelector("#like-button").addEventListener("click", function(){
+            updateLikes(item)
+        })
+    }
+
+    function updateLikes(item) {
+        fetch(`http://localhost:3000/images/${item.id}`, {
+            method: 'PATCH',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: item.id,
+                title: item.title,
+                likes: ++item.likes,
+                image: item.image,
+            })
+        })
+        .then(response => response.json())
+        .then(data => displayImage(data))
     }
 })
