@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(data => {
         data.forEach(element => {
-            console.log(element)
+            // console.log(element)
             displayImage(element)
         })
     })
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(data)
         })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => data)
     }
 
     function deleteComment(id) {
