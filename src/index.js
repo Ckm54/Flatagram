@@ -1,3 +1,5 @@
+let showing = true;
+
 document.addEventListener("DOMContentLoaded", () => {
     const imageContainer = document.querySelector("div.image-container");
 
@@ -52,6 +54,17 @@ document.addEventListener("DOMContentLoaded", () => {
             postNewComment(data)
             getComments(item, commentsList)
             commentForm.reset()
+        })
+
+        const imageTitle = imageCard.querySelector("#card-title")
+        imageTitle.addEventListener("click", () => {
+            const cardImage = imageCard.querySelector("#card-image")
+            showing = !showing;
+            if(showing){
+                cardImage.style.display = "block"
+            } else {
+                cardImage.style.display = "none"
+            }
         })
 
     }
